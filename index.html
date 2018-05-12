@@ -72,10 +72,9 @@
 					<p id="NewStringBox3">內文瀏覽</p>
 			
 					<script type="text/javascript">
-			
 						function ChangeString2(){
-							var NewStringValue2=document.getElementById("StringTextBox2").value;
-							var lines = NewStringValue2.split("\n"); 
+							var NewStringValue=document.getElementById("StringTextBox2").value;
+							var lines = NewStringValue.split("\n"); 
 								var string = ""; 
 								string += '<table style="width: 768px; border-collapse: collapse; text-align: left;" cellspacing="0">';
 								string += '	<tbody>';
@@ -131,6 +130,22 @@
 				<div class="tab-pane fade" id="page2">
 					<h2>園區產業焦點 格式產生器</h2>
 					<p>測試中。</p>
+					<textarea class="form-control" cols="95" rows="5" id="StringTextBox6"></textarea>
+					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString6()"><br>
+			
+					<textarea class="form-control" cols="95" rows="5" id="NewStringBox14">...</textarea>
+					<p id="NewStringBox13">內文瀏覽</p>
+			
+					<script type="text/javascript">
+						function ChangeString6(){
+							var NewStringValue=document.getElementById("StringTextBox6").value;
+							var lines = NewStringValue.split("\n"); 
+
+							document.getElementById("NewStringBox13").innerHTML=string;
+							document.getElementById("NewStringBox14").value=string;
+							document.getElementById("NewStringBox99").innerHTML+=string+"\n";
+						}
+					</script>
 				</div>
 
 				<div class="tab-pane fade" id="page4">
