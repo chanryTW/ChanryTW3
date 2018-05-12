@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh_TW">
+	<head>
+		<meta charset="utf-8"> 			
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+		<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>		
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>		
+		<title>金屬行銷組 格式產生器</title>
+		
+		<style>
+			.index-top {
+				background-color: rgb(163, 221, 255);
+				padding: 1px 40px 10px 40px;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 280px;
+				z-index: 100;
+			}
+			.index-button {
+				padding: 20px 40px 40px 40px;
+				position: absolute;
+				top: 280px;
+				width: 100%;
+			}
+			#NewStringBox99 {
+				resize: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="index-top">
+			<h1>累積文字</h1>
+			<textarea readonly class="form-control" cols="95" rows="5" id="NewStringBox99"></textarea>
+			<button type="button" class="btn btn-success btn-block" onclick="IndexTopBtn1()">複製</button>
+			<button type="button" class="btn btn-warning btn-block" onclick="IndexTopBtn2()">清空</button>		
+			<br>
+
+			<script type="text/javascript">
+				function IndexTopBtn1(){
+					document.getElementById('NewStringBox99').select()
+   					document.execCommand('copy')
+				}
+				function IndexTopBtn2(){
+					document.getElementById("NewStringBox99").innerHTML="";											
+				}
+			</script>
+
+		</div>
+
+		<div class="index-button">				
+			<ul id="myTab" class="nav nav-tabs">
+					<li class="active"><a href="#page1" data-toggle="tab">光電產業焦點</a></li>
+					<li><a href="#page2" data-toggle="tab">風電產業焦點</a></li>
+					<li><a href="#page3" data-toggle="tab">大師專欄</a></li>
+					<li><a href="#page4" data-toggle="tab">MII出版</a></li>
+			</ul>
+			<div id="myTabContent" class="tab-content">
+				<div class="tab-pane fade in active" id="page1">
+					
+					<h2>光電產業焦點 格式產生器</h2>
+					<p>一鍵完成，直接將光電WORD檔「全選」「複製」貼於此處即可</p>
+					<textarea class="form-control" cols="95" rows="5" id="StringTextBox2"></textarea>
+					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString2()"><br>
+			
+					<textarea class="form-control" cols="95" rows="5" id="NewStringBox4">...</textarea>
+					<p id="NewStringBox3">內文瀏覽</p>
+			
+					<script type="text/javascript">
+			
+						function ChangeString2(){
+							var NewStringValue2=document.getElementById("StringTextBox2").value;
+							var lines = NewStringValue2.split("\n"); 
+								var string = ""; 
+								string += '<table style="width: 768px; border-collapse: collapse; text-align: left;" cellspacing="0">';
+								string += '	<tbody>';
+								string += '	<tr><td>';
+								string += '		<img style="width: 768px; height: 531px;" alt="" src="http://mii.mirdc.org.tw/Resources/Images/Upload/mike3mpq.jpg" />';
+								string += '	</td></tr>	';
+								string += '	<tr><td style="border: 0px currentColor;">';
+								string += '	<br />';
+								string += '			</td></tr>';
+								string += '			<tr><td>';
+								string += '					<div style="color: #000000; font-family: 標楷體; font-size: 20px;">';
+								string += '						<div><div style="text-align: right;"><img alt="" src="http://mii.mirdc.org.tw/Resources/Images/Upload/yplikzqz.PNG" /></div></div>';
+								
+								var TitleText = [];
+								
+								// 先找出每個文章的開頭行數，然後放入陣列
+								for (i=0;i<lines.length;i++) {
+									if (lines[i].substr(0,3)=="TOP") {
+										TitleText.push(i-1);
+									}
+								} 
+								
+								// 取每個陣列
+								for (i=0;i<TitleText.length;i++) {
+									string+= '<br /><strong><span style="color: #333399;font-size: 20px; font-family: 標楷體;">'+lines[TitleText[i]]+lines[TitleText[i]+1].substr(3)+'</span></strong><br /><br />\n';									
+									
+									if (i==TitleText.length-1) {
+										for (j=TitleText[i]+3;j<lines.length;j++) {
+										string+= '<div style=""color: #000000; font-family: 標楷體; font-size: 20px;"">　　'+lines[j]+'<br /></div>\n';																				
+										}
+									}else {
+										for (j=TitleText[i]+3;j<TitleText[i+1];j++) {
+										string+= '<div style=""color: #000000; font-family: 標楷體; font-size: 20px;"">　　'+lines[j]+'<br /></div>\n';																				
+										}
+									}
+								} 
+
+								string += '</div></td></tr></tbody></table><br />';
+
+								console.log(TitleText);
+								document.getElementById("NewStringBox3").innerHTML=string;
+								document.getElementById("NewStringBox4").value=string;
+								document.getElementById("NewStringBox99").innerHTML+=string+"\n";											
+						}
+					</script>
+
+				</div>
+				<div class="tab-pane fade" id="page2">
+					<br>
+					<p>請先裝python3，裝完找睿大。</p>
+				</div>
+				<div class="tab-pane fade" id="page3">
+					<h2>大師專欄 格式產生器</h2>
+					<p>第一列:標題 , 第二列以後:內文</p>
+					<textarea class="form-control" cols="95" rows="5" id="StringTextBox1"></textarea>
+					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString1()"><br>
+			
+					<textarea class="form-control" cols="95" rows="5" id="NewStringBox6">...</textarea>
+					<p id="NewStringBox5">內文瀏覽</p>
+			
+					<script type="text/javascript">
+			
+						function ChangeString1(){
+							var NewStringValue1=document.getElementById("StringTextBox1").value;
+							var lines = NewStringValue1.split("\n"); 
+								var string = ""; 
+								
+								string+= '<h1 style="font-family: 標楷體;color: #000000;font-size: 24px">'+lines[0]+'</h1>\n';
+			
+								for(i=1;i<lines.length;i++){ 
+								string+= '<h5 style="font-weight: normal;font-size: 18px;color: #000000; font-family: 標楷體;text-align: justify;">　　'+lines[i]+'</h5>\n';
+								} 
+								document.getElementById("NewStringBox5").innerHTML=string;
+								document.getElementById("NewStringBox6").value=string;
+								document.getElementById("NewStringBox99").innerHTML+=string+"\n";																			
+						}
+					</script>
+				</div>
+				<div class="tab-pane fade" id="page4">
+					<h2>MII出版 格式產生器</h2>
+					<h3>大標題</h3>
+					<p>第一列:大標題</p>
+					<textarea class="form-control" cols="95" rows="2" id="StringTextBox3"></textarea>
+					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString3()"><br>
+			
+					<textarea class="form-control" cols="95" rows="5" id="NewStringBox8">...</textarea>
+					<p id="NewStringBox7">內文瀏覽</p>
+					
+					<h3>小標題</h3>					
+					<p>第一列:小標題</p>
+					<textarea class="form-control" cols="95" rows="2" id="StringTextBox4"></textarea>
+					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString4()"><br>
+			
+					<textarea class="form-control" cols="95" rows="5" id="NewStringBox10">...</textarea>
+					<p id="NewStringBox9">內文瀏覽</p>
+					
+					<h3>內文</h3>									
+					<p>第一列以後:內文</p>
+					<textarea class="form-control" cols="95" rows="2" id="StringTextBox5"></textarea>
+					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString5()"><br>
+			
+					<textarea class="form-control" cols="95" rows="5" id="NewStringBox12">...</textarea>
+					<p id="NewStringBox11">內文瀏覽</p>
+			
+					<script type="text/javascript">
+			
+						function ChangeString3(){
+							var NewStringValue1=document.getElementById("StringTextBox3").value;
+							var lines = NewStringValue1.split("\n"); 
+								var string = ""; 
+								
+								string+= '<h1 style="font-family: 標楷體;color: #333399;font-size: 24px">'+lines[0]+'</h1>\n';
+			
+								document.getElementById("NewStringBox7").innerHTML=string;
+								document.getElementById("NewStringBox8").value=string;
+								document.getElementById("NewStringBox99").innerHTML+=string+"\n";																			
+						}
+						function ChangeString4(){
+							var NewStringValue1=document.getElementById("StringTextBox4").value;
+							var lines = NewStringValue1.split("\n"); 
+								var string = ""; 
+								
+								string+= '<h2 style="font-family: 標楷體;color: #ff6600;font-size: 20px">'+lines[0]+'</h2>\n';
+			
+								document.getElementById("NewStringBox9").innerHTML=string;
+								document.getElementById("NewStringBox10").value=string;
+								document.getElementById("NewStringBox99").innerHTML+=string+"\n";																			
+						}
+						function ChangeString5(){
+							var NewStringValue1=document.getElementById("StringTextBox5").value;
+							var lines = NewStringValue1.split("\n"); 
+								var string = ""; 
+								
+								for(i=0;i<lines.length;i++){ 
+								string+= '<h5 style="font-weight: normal;font-size: 18px;color: #000000; font-family: 標楷體;text-align: justify;">　　'+lines[i]+'</h5>\n';
+								} 
+			
+								document.getElementById("NewStringBox11").innerHTML=string;
+								document.getElementById("NewStringBox12").value=string;
+								document.getElementById("NewStringBox99").innerHTML+=string+"\n";																			
+						}
+					</script>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
