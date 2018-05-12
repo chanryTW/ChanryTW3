@@ -1,3 +1,4 @@
+<!-- By睿大 © 2018 Chanry All Rights Reserved. 問題回報：chanrytw@gmail.com -->
 <!DOCTYPE html>
 <html lang="zh_TW">
 	<head>
@@ -12,7 +13,7 @@
 		
 		<style>
 			.index-top {
-				background-color: rgb(163, 221, 255);
+				background-color: rgb(46, 60, 53);
 				padding: 1px 40px 10px 40px;
 				position: fixed;
 				top: 0;
@@ -24,7 +25,7 @@
 			.index-button {
 				padding: 20px 40px 40px 40px;
 				position: absolute;
-				top: 280px;
+				top: 290px;
 				width: 100%;
 			}
 			#NewStringBox99 {
@@ -34,8 +35,9 @@
 	</head>
 	<body>
 		<div class="index-top">
-			<h1>累積文字</h1>
-			<textarea readonly class="form-control" cols="95" rows="5" id="NewStringBox99"></textarea>
+			<p style="text-align:center; color: rgb(255, 255, 255);"><span style="font-size:40px; color: rgb(255, 255, 255);">金屬行銷組 格式產生器</span> 2018.05.12 update By Chanry</p>
+			<h4 style="color: rgb(255, 255, 255);">累積文字：</h4>
+			<textarea readonly class="form-control" cols="95" rows="3" id="NewStringBox99"></textarea>
 			<button type="button" class="btn btn-success btn-block" onclick="IndexTopBtn1()">複製</button>
 			<button type="button" class="btn btn-warning btn-block" onclick="IndexTopBtn2()">清空</button>		
 			<br>
@@ -60,11 +62,12 @@
 					<li><a href="#page4" data-toggle="tab">大師專欄</a></li>
 					<li><a href="#page5" data-toggle="tab">MII出版</a></li>
 			</ul>
+			
 			<div id="myTabContent" class="tab-content">
+
+				<!-- 光電產業焦點 -->
 				<div class="tab-pane fade in active" id="page1">
-					
-					<h2>光電產業焦點 格式產生器</h2>
-					<p>一鍵完成，直接將光電WORD檔「全選」「複製」貼於此處即可</p>
+					<h4>一鍵完成，直接將光電WORD檔「全選」「複製」貼於此處即可。</h4>
 					<textarea class="form-control" cols="95" rows="5" id="StringTextBox2"></textarea>
 					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString2()"><br>
 			
@@ -75,61 +78,62 @@
 						function ChangeString2(){
 							var NewStringValue=document.getElementById("StringTextBox2").value;
 							var lines = NewStringValue.split("\n"); 
-								var string = ""; 
-								string += '<table style="width: 768px; border-collapse: collapse; text-align: left;" cellspacing="0">';
-								string += '	<tbody>';
-								string += '	<tr><td>';
-								string += '		<img style="width: 768px; height: 531px;" alt="" src="http://mii.mirdc.org.tw/Resources/Images/Upload/mike3mpq.jpg" />';
-								string += '	</td></tr>	';
-								string += '	<tr><td style="border: 0px currentColor;">';
-								string += '	<br />';
-								string += '			</td></tr>';
-								string += '			<tr><td>';
-								string += '					<div style="color: #000000; font-family: 標楷體; font-size: 20px;">';
-								string += '						<div><div style="text-align: right;"><img alt="" src="http://mii.mirdc.org.tw/Resources/Images/Upload/yplikzqz.PNG" /></div></div>';
+							var string = ""; 
+							string += '<table style="width: 768px; border-collapse: collapse; text-align: left;" cellspacing="0">';
+							string += '	<tbody>';
+							string += '	<tr><td>';
+							string += '		<img style="width: 768px; height: 531px;" alt="" src="http://mii.mirdc.org.tw/Resources/Images/Upload/mike3mpq.jpg" />';
+							string += '	</td></tr>	';
+							string += '	<tr><td style="border: 0px currentColor;">';
+							string += '	<br />';
+							string += '			</td></tr>';
+							string += '			<tr><td>';
+							string += '					<div style="color: #000000; font-family: 標楷體; font-size: 20px;">';
+							string += '						<div><div style="text-align: right;"><img alt="" src="http://mii.mirdc.org.tw/Resources/Images/Upload/yplikzqz.PNG" /></div></div>';
+							
+							var TitleText = [];
+							
+							// 先找出每個文章的開頭行數，然後放入陣列
+							for (i=0;i<lines.length;i++) {
+								if (lines[i].substr(0,3)=="TOP") {
+									TitleText.push(i-1);
+								}
+							} 
+							
+							// 取每個陣列
+							for (i=0;i<TitleText.length;i++) {
+								// 標題部分
+								string+= '<br /><strong><span style="color: #333399;font-size: 20px; font-family: 標楷體;">'+lines[TitleText[i]]+lines[TitleText[i]+1].substr(3)+'</span></strong><br /><br />\n';									
 								
-								var TitleText = [];
-								
-								// 先找出每個文章的開頭行數，然後放入陣列
-								for (i=0;i<lines.length;i++) {
-									if (lines[i].substr(0,3)=="TOP") {
-										TitleText.push(i-1);
+								// 內文部分，判斷是否為最後一組
+								if (i==TitleText.length-1) {
+									for (j=TitleText[i]+3;j<lines.length;j++) {
+									string+= '<div style=""color: #000000; font-family: 標楷體; font-size: 20px;"">　　'+lines[j]+'<br /></div>\n';																				
 									}
-								} 
-								
-								// 取每個陣列
-								for (i=0;i<TitleText.length;i++) {
-									string+= '<br /><strong><span style="color: #333399;font-size: 20px; font-family: 標楷體;">'+lines[TitleText[i]]+lines[TitleText[i]+1].substr(3)+'</span></strong><br /><br />\n';									
-									
-									// 判斷是否為最後一組
-									if (i==TitleText.length-1) {
-										for (j=TitleText[i]+3;j<lines.length;j++) {
-										string+= '<div style=""color: #000000; font-family: 標楷體; font-size: 20px;"">　　'+lines[j]+'<br /></div>\n';																				
-										}
-									}else {
-										for (j=TitleText[i]+3;j<TitleText[i+1];j++) {
-										string+= '<div style=""color: #000000; font-family: 標楷體; font-size: 20px;"">　　'+lines[j]+'<br /></div>\n';																				
-										}
+								}else {
+									for (j=TitleText[i]+3;j<TitleText[i+1];j++) {
+									string+= '<div style=""color: #000000; font-family: 標楷體; font-size: 20px;"">　　'+lines[j]+'<br /></div>\n';																				
 									}
-								} 
+								}
+							} 
 
-								string += '</div></td></tr></tbody></table><br />';
+							string += '</div></td></tr></tbody></table><br />';
 
-								document.getElementById("NewStringBox3").innerHTML=string;
-								document.getElementById("NewStringBox4").value=string;
-								document.getElementById("NewStringBox99").innerHTML+=string+"\n";											
+							document.getElementById("NewStringBox3").innerHTML=string;
+							document.getElementById("NewStringBox4").value=string;
+							document.getElementById("NewStringBox99").innerHTML+=string+"\n";											
 						}
 					</script>
 				</div>
 
+				<!-- 風電產業焦點 -->							
 				<div class="tab-pane fade" id="page2">
-					<h2>風電產業焦點 格式產生器</h2>
-					<p>請先裝python3，裝完找睿大。</p>
+					<h4>一鍵完成，請先裝python3，裝完找睿大。</h4>
 				</div>
 
+				<!-- 園區產業焦點 -->											
 				<div class="tab-pane fade" id="page3">
-					<h2>園區產業焦點 格式產生器</h2>
-					<p>測試中。</p>
+					<h4>一鍵完成，直接點WORD檔中的內文區塊「複製」，然後直接貼於此處即可。</h4>
 					<textarea class="form-control" cols="95" rows="5" id="StringTextBox6"></textarea>
 					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString6()"><br>
 			
@@ -140,7 +144,51 @@
 						function ChangeString6(){
 							var NewStringValue=document.getElementById("StringTextBox6").value;
 							var lines = NewStringValue.split("\n"); 
+							var string = ""; 
+							string += '<table cellspacing="0" style="width: 768px; border-collapse: collapse;"><tbody><tr><td><img alt="" src="http://mii.mirdc.org.tw/Resources/Images/Upload/園區.JPG" style="width: 768px; height: 531px;" />&nbsp;	</td></tr><tr><td style="border: 0px currentcolor;"><br /></td></tr><tr><td><div style="text-align: justify; font-family: 標楷體; font-size: 20px;"><div style="text-align: right;"><img alt="" src="http://mii.mirdc.org.tw/Resources/Images/Upload/yplikzqz.PNG" /></div><div></div><div>';
 
+							var TitleText = [];
+							var NumberText = ["","一","二","三","四","五","六","七","八","九","十","十一","十二","十三","十四","十五","十六","十七","十八","十九","二十","二十一","二十二","二十三","二十四","二十五","二十六","二十七","二十八","二十九","三十"];
+
+							// 先找出每個文章的開頭行數，然後放入陣列
+							for (i=0;i<lines.length;i++) {
+								if (lines[i].substr(1,1)=="、" || lines[i].substr(2,1)=="、" || lines[i]=="園區雙週快訊" || lines[i]=="園區雙週快訊-國外新聞" || lines[i]=="活動資訊" || lines[i]=="政策掃描" || lines[i]=="地方園區") {
+									TitleText.push(i);
+								}
+							} 
+
+							// 取每個陣列
+							for (i=0;i<TitleText.length;i++) {
+								// 判斷如果是活動資訊 整段落不要
+								if (lines[TitleText[i]]=="活動資訊") {
+								}else {
+									// 標題部分
+									if (lines[TitleText[i]]=="園區雙週快訊" || lines[TitleText[i]]=="園區雙週快訊-國外新聞" || lines[TitleText[i]]=="政策掃描" || lines[TitleText[i]]=="地方園區") {
+										string+= '<strong style="font-size: 20px;"><span style="color: #007138;font-size: 24px;">'+lines[TitleText[i]]+'</span></strong><br />\n';	
+										var NumberTextN = 1;									
+									}else if (lines[TitleText[i]].substr(1,1)=="、") {
+										string+= '<br /><strong><span style="color: #333399;font-size: 20px; font-family: 標楷體;">'+NumberText[NumberTextN]+lines[TitleText[i]].substr(1)+'</span></strong><br />\n';	
+										NumberTextN++;
+									}else if (lines[TitleText[i]].substr(2,1)=="、") {
+										string+= '<br /><strong><span style="color: #333399;font-size: 20px; font-family: 標楷體;">'+NumberText[NumberTextN]+lines[TitleText[i]].substr(2)+'</span></strong><br />\n';	
+										NumberTextN++;									
+									}
+														
+									// 內文部分，判斷是否為最後一組
+									if (i==TitleText.length-1) {
+										for (j=TitleText[i]+1;j<lines.length;j++) {
+										string+= '<div style=""color: #000000; font-family: 標楷體; font-size: 20px;"">　　'+lines[j]+'<br /></div>\n';																				
+										}
+									}else {
+										for (j=TitleText[i]+1;j<TitleText[i+1];j++) {
+										string+= '<div style=""color: #000000; font-family: 標楷體; font-size: 20px;"">　　'+lines[j]+'<br /></div>\n';																				
+										}
+									}
+								}
+							} 
+
+							string += '</div><div><br /></div><div><br /></div></div></td></tr></tbody></table><br />';
+						
 							document.getElementById("NewStringBox13").innerHTML=string;
 							document.getElementById("NewStringBox14").value=string;
 							document.getElementById("NewStringBox99").innerHTML+=string+"\n";
@@ -148,9 +196,9 @@
 					</script>
 				</div>
 
+				<!-- 大師專欄 -->											
 				<div class="tab-pane fade" id="page4">
-					<h2>大師專欄 格式產生器</h2>
-					<p>第一列:標題 , 第二列以後:內文</p>
+					<h4>第一列:標題 , 第二列以後:內文</h4>
 					<textarea class="form-control" cols="95" rows="5" id="StringTextBox1"></textarea>
 					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString1()"><br>
 			
@@ -175,9 +223,10 @@
 						}
 					</script>
 				</div>
+
+				<!-- MII出版 -->															
 				<div class="tab-pane fade" id="page5">
-					<h2>MII出版 格式產生器</h2>
-					<h3>大標題</h3>
+					<h4>大標題</h4>
 					<p>第一列:大標題</p>
 					<textarea class="form-control" cols="95" rows="2" id="StringTextBox3"></textarea>
 					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString3()"><br>
@@ -185,7 +234,7 @@
 					<textarea class="form-control" cols="95" rows="5" id="NewStringBox8">...</textarea>
 					<p id="NewStringBox7">內文瀏覽</p>
 					
-					<h3>小標題</h3>					
+					<h4>小標題</h4>					
 					<p>第一列:小標題</p>
 					<textarea class="form-control" cols="95" rows="2" id="StringTextBox4"></textarea>
 					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString4()"><br>
@@ -193,7 +242,7 @@
 					<textarea class="form-control" cols="95" rows="5" id="NewStringBox10">...</textarea>
 					<p id="NewStringBox9">內文瀏覽</p>
 					
-					<h3>內文</h3>									
+					<h4>內文</h4>									
 					<p>第一列以後:內文</p>
 					<textarea class="form-control" cols="95" rows="2" id="StringTextBox5"></textarea>
 					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString5()"><br>
