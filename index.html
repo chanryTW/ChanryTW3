@@ -61,6 +61,7 @@
 					<li><a href="#page3" data-toggle="tab">園區產業焦點</a></li>
 					<li><a href="#page4" data-toggle="tab">大師專欄</a></li>
 					<li><a href="#page5" data-toggle="tab">MII出版</a></li>
+					<li><a href="#page8" data-toggle="tab">MII出版一鍵產生（測試）</a></li>
 					<li><a href="#page6" data-toggle="tab">行政組-產業新聞</a></li>
 					<li><a href="#page7" data-toggle="tab">彙整大表狀態更新</a></li>
 			</ul>
@@ -353,6 +354,93 @@
 								document.getElementById("NewStringBox11").innerHTML=string;
 								document.getElementById("NewStringBox12").value=string;
 								document.getElementById("NewStringBox99").innerHTML+=string+"\n";																			
+						}
+					</script>
+				</div>
+
+				<!-- MII出版一鍵產生（測試） -->															
+				<div class="tab-pane fade" id="page8">
+					<h4>一鍵完成，先把表格都刪掉，然後將WORD檔「全選」「複製」貼於此處即可。（預設十大標十小標十圖片以內）</h4>
+					<textarea class="form-control" cols="95" rows="2" id="StringTextBox8"></textarea>
+					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString8()"><br>
+			
+					<textarea class="form-control" cols="95" rows="2" id="NewStringBox17">...</textarea>
+					<p id="NewStringBox18">內文瀏覽</p>
+			
+					<script type="text/javascript">
+						function ChangeString8(){
+							var NewStringValue=document.getElementById("StringTextBox8").value;
+							var lines = NewStringValue.split("\n"); 
+							var string = ""; 
+							
+							var TitleText = [];
+							var TitleType = [];
+							var CheckText = ["一、","二、","三、","四、","五、","六、","七、","八、","九、","十、"];
+							var CheckText2 = ["（一）","（二）","（三）","（四）","（五）","（六）","（七）","（八）","（九）","（十）"];
+							var CheckText3 = ["圖1","圖2","圖3","圖4","圖5","圖6","圖7","圖8","圖9","圖10"];
+
+							// 先找出每個文章的開頭行數，然後放入陣列
+							for (i=0;i<lines.length;i++) {
+								// 判斷標題的前三個字元中，有沒有CheckText陣列裡面的東西
+								for (j=0;j<CheckText.length;j++) {
+									if(lines[i].substr(0,3).indexOf(CheckText[j]) > -1) {
+										TitleText.push(i);
+										TitleType.push("大"); //標記為大標題
+										console.log(i+"大");
+									}
+								}
+								for (j=0;j<CheckText2.length;j++) {
+									if(lines[i].substr(0,4).indexOf(CheckText2[j]) > -1) {
+										TitleText.push(i);
+										TitleType.push("小"); //標記為小標題
+										console.log(i+"小");
+									}
+								}
+								for (j=0;j<CheckText3.length;j++) {
+									if(lines[i].substr(0,4).indexOf(CheckText3[j]) > -1) {
+										TitleText.push(i-1);
+										TitleType.push("圖"); //標記為圖片
+										console.log(i-1+"圖");
+									}
+								}
+							} 
+							
+							// 取每個陣列
+							for (i=0;i<TitleText.length;i++) {
+								if (TitleType[i]=="大") {
+									// 大標題部分
+									string+= '<h1 style="font-family: 標楷體;color: #333399;font-size: 24px">'+lines[TitleText[i]]+'</h1>\n';
+								}else if (TitleType[i]=="小") {
+									// 小標題部分
+									string+= '<h2 style="font-family: 標楷體;color: #ff6600;font-size: 20px">'+lines[TitleText[i]]+'</h2>\n';									
+								}else if (TitleType[i]=="圖") {
+									// 小標題部分
+									string+= '這裡是圖片\n';									
+									string+= '這裡是圖片\n';									
+									string+= '這裡是圖片\n';									
+								}
+								
+								// 內文部分，判斷是否為最後一組
+								if (i==TitleText.length-1) {
+									for (j=TitleText[i]+1;j<lines.length;j++) {
+									string+= '<h5 style="font-weight: normal;font-size: 18px;color: #000000; font-family: 標楷體;text-align: justify;">　　'+lines[j]+'</h5>\n';																																																								
+									}
+								}else {
+									if (TitleType[i]=="圖") {
+										for (j=TitleText[i]+2;j<TitleText[i+1];j++) {
+										string+= '<h5 style="font-weight: normal;font-size: 18px;color: #000000; font-family: 標楷體;text-align: justify;">　　'+lines[j]+'</h5>\n';																												
+										}
+									}else {
+										for (j=TitleText[i]+1;j<TitleText[i+1];j++) {
+										string+= '<h5 style="font-weight: normal;font-size: 18px;color: #000000; font-family: 標楷體;text-align: justify;">　　'+lines[j]+'</h5>\n';																												
+										}
+									}
+								}
+							}
+
+							document.getElementById("NewStringBox18").innerHTML=string;
+							document.getElementById("NewStringBox17").value=string;
+							document.getElementById("NewStringBox99").innerHTML+=string+"\n";											
 						}
 					</script>
 				</div>
