@@ -60,8 +60,9 @@
 					<li><a href="#page2" data-toggle="tab">風電產業焦點</a></li>
 					<li><a href="#page3" data-toggle="tab">園區產業焦點</a></li>
 					<li><a href="#page4" data-toggle="tab">大師專欄</a></li>
-					<li><a href="#page5" data-toggle="tab">MII出版</a></li>
-					<li><a href="#page8" data-toggle="tab">MII出版一鍵產生（測試）</a></li>
+					<li><a href="#page5" data-toggle="tab">MII出版（個別產生）</a></li>
+					<li><a href="#page8" data-toggle="tab">MII出版（一鍵產生）</a></li>
+					<li><a href="#page9" data-toggle="tab">圖片上傳</a></li>
 					<li><a href="#page6" data-toggle="tab">行政組-產業新聞</a></li>
 					<li><a href="#page7" data-toggle="tab">彙整大表狀態更新</a></li>
 			</ul>
@@ -295,7 +296,7 @@
 					</script>
 				</div>
 
-				<!-- MII出版 -->															
+				<!-- MII出版（個別產生）-->															
 				<div class="tab-pane fade" id="page5">
 					<h4>第一列:大標題</h4>
 					<textarea class="form-control" cols="95" rows="2" id="StringTextBox3"></textarea>
@@ -358,7 +359,7 @@
 					</script>
 				</div>
 
-				<!-- MII出版一鍵產生（測試） -->															
+				<!-- MII出版（一鍵產生） -->															
 				<div class="tab-pane fade" id="page8">
 					<h4>一鍵完成，先把表格都刪掉，然後將WORD檔「全選」「複製」貼於此處即可。（預設十大標十小標十圖片以內）</h4>
 					<textarea class="form-control" cols="95" rows="2" id="StringTextBox8"></textarea>
@@ -443,6 +444,16 @@
 							document.getElementById("NewStringBox99").innerHTML+=string+"\n";											
 						}
 					</script>
+				</div>
+
+				<!-- 圖片上傳 -->																			
+				<div class="tab-pane fade" id="page9">
+					<h4>測試中。</h4>					
+					<form action="upload.php" method="post" enctype="multipart/form-data">
+						<input type="file" name="file" id="file" /><br />
+						<input type="submit" name="submit" value="上傳" />
+					</form>
+					
 				</div>
 
 				<!-- 行政組-產業新聞 -->											
