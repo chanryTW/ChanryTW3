@@ -35,7 +35,7 @@
 	</head>
 	<body>
 		<div class="index-top">
-			<p style="text-align:center; color: rgb(255, 255, 255);"><span style="font-size:40px; color: rgb(255, 255, 255);">金屬行銷組 格式產生器</span> 2018.06.13 update By Chanry</p>
+			<p style="text-align:center; color: rgb(255, 255, 255);"><span style="font-size:40px; color: rgb(255, 255, 255);">金屬行銷組 格式產生器</span> 2018.06.27 update By Chanry</p>
 			<h4 style="color: rgb(255, 255, 255);">累積文字：</h4>
 			<textarea readonly class="form-control" cols="95" rows="3" id="NewStringBox99"></textarea>
 			<button type="button" class="btn btn-success btn-block" onclick="IndexTopBtn1()">複製</button>
@@ -489,49 +489,160 @@
 
 				<!-- 關鍵圖表 -->											
 				<div class="tab-pane fade" id="page11">
-					<h4>製作中</h4>
-					<table class="table table-bordered">
-						<thead>
-						  <tr>
-							<th>類型</th>
-							<th>價格/單位</th>
-							<th>OOO年 Before</th>
-							<th>OOO年 After</th>
-							<th>漲跌(%)</th>
-							<th>價格變動原因</th>
-							<th>資料來源</th>
-						  </tr>
-						</thead>
-						<tbody>
-						  <tr>
-							<td>John</td>
-							<td>Doe</td>
-							<td>john@example.com</td>
-							<td>john@example.com</td>
-							<td>john@example.com</td>
-							<td>john@example.com</td>
-							<td>john@example.com</td>
-						  </tr>
-						  <tr>
-							<td>John</td>
-							<td>Doe</td>
-							<td>john@example.com</td>
-							<td>john@example.com</td>
-							<td>john@example.com</td>
-							<td>john@example.com</td>
-							<td>john@example.com</td>
-						  </tr>
-						  <tr>
-							<td>John</td>
-							<td>Doe</td>
-							<td>john@example.com</td>
-							<td>john@example.com</td>
-							<td>john@example.com</td>
-							<td>john@example.com</td>
-							<td>john@example.com</td>
-						  </tr>
+					<h4>修改完直接點執行即可產生HTML，漲幅會自動計算並四捨五入到小數第二位以及自動補0，價格會自動加千分位符號。</h4>
+
+					<table align="center" style="width: 1300px; border-collapse: collapse;" cellspacing="0" cellpadding="1">
+						<tbody style="text-align: center;">
+							<tr style="text-align: center;">
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #333366;" rowspan="2"><span style="color: #ffffff;">類型</span></td>
+								<td style="border: 1px solid #ffffff; width: 7.28%; vertical-align: middle; background-color: #333366;" rowspan="2"><span style="color: #ffffff;">價格/單位</span></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; background-color: #333366;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="107年" id="page11_input1"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; background-color: #333366;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="107年" id="page11_input1_1"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; background-color: #333366;"><span style="color: #ffffff;">較上週</span></td>
+								<td style="border: 1px solid #ffffff; width: 25.28%; vertical-align: middle; background-color: #333366;" rowspan="2"><span style="color: #ffffff;">價格變動原因</span></td>
+								<td style="border: 1px solid #ffffff; width: 6.28%; vertical-align: middle; background-color: #333366;" rowspan="2"><span style="color: #ffffff;">資料來源</span></td></tr>
+							<tr style="text-align: center;">
+								<td style="border: 1px solid #ffffff; width: 5.28%; background-color: #333366;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="5/25" id="page11_input2"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; background-color: #333366;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="6/1" id="page11_input3"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; background-color: #333366;"><span style="color: #ffffff;">漲跌(%)</span></td></tr>
+							<tr style="text-align: center;">								
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">鋼筋</span></td>
+								<td style="border: 1px solid #ffffff; width: 7.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">台幣 元/公噸</span></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #dce6f0;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="18000" id="page11_input4" onchange="updateMagnitude(this.id)"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #dce6f0;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="18000" id="page11_input5" onchange="updateMagnitude(this.id)"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #dce6f0;"><span id="page11_span1" style="color: #000000;">0.00%</span></td>
+								<td style="border: 1px solid #ffffff; width: 25.28%; vertical-align: middle; background-color: #dce6f0;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 450px;" value="本周盤價上調200元/噸。" id="page11_input6"></td>
+								<td style="border: 1px solid #ffffff; width: 6.28%; vertical-align: middle; background-color: #dce6f0;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 250px;" value="豐興鋼筋盤價" id="page11_input7"></td></tr>
+							<tr style="text-align: center;">
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">H型鋼</span></td>
+								<td style="border: 1px solid #ffffff; width: 7.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">台幣 元/公噸</span></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #95b3d7;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="23300" id="page11_input8" onchange="updateMagnitude(this.id)"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #95b3d7;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="23300" id="page11_input9" onchange="updateMagnitude(this.id)"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #95b3d7;"><span id="page11_span2" style="color: #000000;">0.00%</span></td>
+								<td style="border: 1px solid #ffffff; width: 25.28%; vertical-align: middle; background-color: #95b3d7;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 450px;" value="本周平盤。" id="page11_input10"></td>
+								<td style="border: 1px solid #ffffff; width: 6.28%; vertical-align: middle; background-color: #95b3d7;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 250px;" value="100*100m/m-175*175m/m廠價 東鋼" id="page11_input11"></td></tr>
+							<tr style="text-align: center;">
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">熱軋鋼捲</span></td>
+								<td style="border: 1px solid #ffffff; width: 7.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">台幣 元/公噸</span></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #dce6f0;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="20300" id="page11_input12" onchange="updateMagnitude(this.id)"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #dce6f0;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="20300" id="page11_input13" onchange="updateMagnitude(this.id)"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #dce6f0;"><span id="page11_span3" style="color: #000000;">0.00%</span></td>
+								<td style="border: 1px solid #ffffff; width: 25.28%; vertical-align: middle; background-color: #dce6f0;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 450px;" value="本周平盤。" id="page11_input14"></td>
+								<td style="border: 1px solid #ffffff; width: 6.28%; vertical-align: middle; background-color: #dce6f0;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 250px;" value="熱軋鋼捲(板)軋延料中鋼" id="page11_input15"></td></tr>
+							<tr style="text-align: center;">
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">盤元</span></td>
+								<td style="border: 1px solid #ffffff; width: 7.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">台幣 元/公噸</span></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #95b3d7;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="27300" id="page11_input16" onchange="updateMagnitude(this.id)"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #95b3d7;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="27300" id="page11_input17" onchange="updateMagnitude(this.id)"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #95b3d7;"><span id="page11_span4" style="color: #000000;">0.00%</span></td>
+								<td style="border: 1px solid #ffffff; width: 25.28%; vertical-align: middle; background-color: #95b3d7;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 450px;" value="本周平盤。" id="page11_input18"></td>
+								<td style="border: 1px solid #ffffff; width: 6.28%; vertical-align: middle; background-color: #95b3d7;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 250px;" value="低合金線材 中鋼" id="page11_input19"></td></tr>
+							<tr style="text-align: center;">
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">銅</span></td>
+								<td style="border: 1px solid #ffffff; width: 7.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">美 元/公噸</span></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #dce6f0;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="6858" id="page11_input20" onchange="updateMagnitude(this.id)"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #dce6f0;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="6845" id="page11_input21" onchange="updateMagnitude(this.id)"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #dce6f0;"><span id="page11_span5" style="color: #ff0000;">-0.19%</span></td>
+								<td style="border: 1px solid #ffffff; width: 25.28%; vertical-align: middle; background-color: #dce6f0;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 450px;" value="美中貿易戰議題再起，以及美元持續走強影響，本週銅價較上周下跌5.36%。" id="page11_input22"></td>
+								<td style="border: 1px solid #ffffff; width: 6.28%; vertical-align: middle; background-color: #dce6f0;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 250px;" value="倫敦LME 現貨 收盤價" id="page11_input23"></td></tr>
+							<tr style="text-align: center;">
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">鋁</span></td>
+								<td style="border: 1px solid #ffffff; width: 7.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">美 元/公噸</span></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #95b3d7;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="2280" id="page11_input24" onchange="updateMagnitude(this.id)"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #95b3d7;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 80px;" value="2289" id="page11_input25" onchange="updateMagnitude(this.id)"></td>
+								<td style="border: 1px solid #ffffff; width: 5.28%; vertical-align: middle; background-color: #95b3d7;"><span id="page11_span6" style="color: #000000;">0.39%</span></td>
+								<td style="border: 1px solid #ffffff; width: 25.28%; vertical-align: middle; background-color: #95b3d7;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 450px;" value="中美貿易戰美元走高，本周LME鋁價下跌3.61%，再度失守2200關口，短期弱勢不變。" id="page11_input26"></td>
+								<td style="border: 1px solid #ffffff; width: 6.28%; vertical-align: middle; background-color: #95b3d7;"><input type="text" style="text-align: center;background-color: #ffeed0;width: 250px;" value="倫敦LME 現貨 收盤價" id="page11_input27"></td></tr>
 						</tbody>
 					</table>
+
+					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="ChangeString9()"><br>
+					<textarea class="form-control" cols="95" rows="2" id="NewStringBox20">...</textarea>
+					<p id="NewStringBox19">內文瀏覽</p>
+
+					<script type="text/javascript">
+						// 四捨五入函式 
+						var roundDecimal = function (val, precision) {
+							return Math.round(Math.round(val * Math.pow(10, (precision || 0) + 1)) / 10) / Math.pow(10, (precision || 0));
+						}
+						// 千分位符號
+						function commafy(num) {
+							num = num + "";
+							var re = /(-?\d+)(\d{3})/
+							while (re.test(num)) {
+								num = num.replace(re, "$1,$2")
+							}
+							return num;
+						}
+						// 更新漲幅
+						function updateMagnitude(x)
+						{
+							switch(x) {
+								case 'page11_input4':
+								case 'page11_input5':
+									var a = document.getElementById("page11_input4").value.replace(/,/, "");
+									var b = document.getElementById("page11_input5").value.replace(/,/, "");
+									var c = "page11_span1";
+									break;
+								case 'page11_input8':
+								case 'page11_input9':
+									var a = document.getElementById("page11_input8").value.replace(/,/, "");
+									var b = document.getElementById("page11_input9").value.replace(/,/, "");
+									var c = "page11_span2";
+									break;
+								case 'page11_input12':
+								case 'page11_input13':
+									var a = document.getElementById("page11_input12").value.replace(/,/, "");
+									var b = document.getElementById("page11_input13").value.replace(/,/, "");
+									var c = "page11_span3";
+									break;
+								case 'page11_input16':
+								case 'page11_input17':
+									var a = document.getElementById("page11_input16").value.replace(/,/, "");
+									var b = document.getElementById("page11_input17").value.replace(/,/, "");
+									var c = "page11_span4";
+									break;
+								case 'page11_input20':
+								case 'page11_input21':
+									var a = document.getElementById("page11_input20").value.replace(/,/, "");
+									var b = document.getElementById("page11_input21").value.replace(/,/, "");
+									var c = "page11_span5";
+									break;
+								case 'page11_input24':
+								case 'page11_input25':
+									var a = document.getElementById("page11_input24").value.replace(/,/, "");
+									var b = document.getElementById("page11_input25").value.replace(/,/, "");
+									var c = "page11_span6";
+									break;
+							}
+							var ans = roundDecimal((parseInt(b)-parseInt(a))/parseInt(b)*100,2).toFixed(2);
+							if (ans<0){
+								document.getElementById(c).style.color = "#ff0000";
+							}
+							else if (ans>=0){
+								document.getElementById(c).style.color = "#000000";
+							}
+							document.getElementById(c).innerHTML = ans+"%";
+						}
+
+						function ChangeString9(){
+							var string = "";
+							string += '<table align="center" style="width: 768px; border-collapse: collapse;" cellspacing="0" cellpadding="1"><tbody style="text-align: center;">'+'\n';
+							string += '<tr style="text-align: center;"><td style="border: 1px solid #ffffff; width: 12.28%; vertical-align: middle; background-color: #333366;" rowspan="2"><span style="color: #ffffff;">類型</span></td><td style="border: 1px solid #ffffff; width: 16.28%; vertical-align: middle; background-color: #333366;" rowspan="2"><span style="color: #ffffff;">價格/單位</span></td><td style="border: 1px solid #ffffff; width: 13.28%; background-color: #333366;"><span style="color: #ffffff;">'+document.getElementById("page11_input1").value+'</span></td><td style="border: 1px solid #ffffff; width: 13.28%; background-color: #333366;"><span style="color: #ffffff;">'+document.getElementById("page11_input1_1").value+'</span></td><td style="border: 1px solid #ffffff; width: 10.28%; background-color: #333366;"><span style="color: #ffffff;">較上週</span></td><td style="border: 1px solid #ffffff; width: 20.28%; vertical-align: middle; background-color: #333366;" rowspan="2"><span style="color: #ffffff;">價格變動原因</span></td><td style="border: 1px solid #ffffff; width: 14.28%; vertical-align: middle; background-color: #333366;" rowspan="2"><span style="color: #ffffff;">資料來源</span></td></tr>'+'\n';
+							string += '<tr style="text-align: center;"><td style="border: 1px solid #ffffff; width: 13.28%; background-color: #333366;"><span style="color: #ffffff;">'+document.getElementById("page11_input2").value+'</span></td><td style="border: 1px solid #ffffff; width: 13.28%; background-color: #333366;"><span style="color: #ffffff;">'+document.getElementById("page11_input3").value+'</span></td><td style="border: 1px solid #ffffff; width: 10.28%; background-color: #333366;"><span style="color: #ffffff;">漲跌(%)</span></td></tr>'+'\n';
+							string += '<tr style="text-align: center;"><td style="border: 1px solid #ffffff; width: 12.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">鋼筋</span></td><td style="border: 1px solid #ffffff; width: 16.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">台幣 元/公噸</span></td><td style="border: 1px solid #ffffff; width: 13.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">'+commafy(document.getElementById("page11_input4").value)+'</span></td><td style="border: 1px solid #ffffff; width: 13.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">'+commafy(document.getElementById("page11_input5").value)+'</span></td><td style="border: 1px solid #ffffff; width: 10.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: '+document.getElementById("page11_span1").style.color+';">'+document.getElementById("page11_span1").innerText+'</span></td><td style="border: 1px solid #ffffff; width: 20.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">'+document.getElementById("page11_input6").value+'</span></td><td style="border: 1px solid #ffffff; width: 14.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">'+document.getElementById("page11_input7").value+'</span></td></tr>'+'\n';
+							string += '<tr style="text-align: center;"><td style="border: 1px solid #ffffff; width: 12.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">H型鋼</span></td><td style="border: 1px solid #ffffff; width: 16.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">台幣 元/公噸</span></td><td style="border: 1px solid #ffffff; width: 13.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">'+commafy(document.getElementById("page11_input8").value)+'</span></td><td style="border: 1px solid #ffffff; width: 13.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">'+commafy(document.getElementById("page11_input9").value)+'</span></td><td style="border: 1px solid #ffffff; width: 10.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: '+document.getElementById("page11_span2").style.color+';">'+document.getElementById("page11_span2").innerText+'</span></td><td style="border: 1px solid #ffffff; width: 20.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">'+document.getElementById("page11_input10").value+'</span></td><td style="border: 1px solid #ffffff; width: 14.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">'+document.getElementById("page11_input11").value+'</span></td></tr>'+'\n';
+							string += '<tr style="text-align: center;"><td style="border: 1px solid #ffffff; width: 12.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">熱軋鋼捲</span></td><td style="border: 1px solid #ffffff; width: 16.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">台幣 元/公噸</span></td><td style="border: 1px solid #ffffff; width: 13.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">'+commafy(document.getElementById("page11_input12").value)+'</span></td><td style="border: 1px solid #ffffff; width: 13.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">'+commafy(document.getElementById("page11_input13").value)+'</span></td><td style="border: 1px solid #ffffff; width: 10.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: '+document.getElementById("page11_span3").style.color+';">'+document.getElementById("page11_span3").innerText+'</span></td><td style="border: 1px solid #ffffff; width: 20.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">'+document.getElementById("page11_input14").value+'</span></td><td style="border: 1px solid #ffffff; width: 14.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">'+document.getElementById("page11_input15").value+'</span></td></tr>'+'\n';
+							string += '<tr style="text-align: center;"><td style="border: 1px solid #ffffff; width: 12.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">盤元</span></td><td style="border: 1px solid #ffffff; width: 16.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">台幣 元/公噸</span></td><td style="border: 1px solid #ffffff; width: 13.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">'+commafy(document.getElementById("page11_input16").value)+'</span></td><td style="border: 1px solid #ffffff; width: 13.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">'+commafy(document.getElementById("page11_input17").value)+'</span></td><td style="border: 1px solid #ffffff; width: 10.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: '+document.getElementById("page11_span4").style.color+';">'+document.getElementById("page11_span4").innerText+'</span></td><td style="border: 1px solid #ffffff; width: 20.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">'+document.getElementById("page11_input18").value+'</span></td><td style="border: 1px solid #ffffff; width: 14.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">'+document.getElementById("page11_input19").value+'</span></td></tr>'+'\n';
+							string += '<tr style="text-align: center;"><td style="border: 1px solid #ffffff; width: 12.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">銅</span></td><td style="border: 1px solid #ffffff; width: 16.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">美 元/公噸</span></td><td style="border: 1px solid #ffffff; width: 13.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">'+commafy(document.getElementById("page11_input20").value)+'</span></td><td style="border: 1px solid #ffffff; width: 13.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">'+commafy(document.getElementById("page11_input21").value)+'</span></td><td style="border: 1px solid #ffffff; width: 10.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: '+document.getElementById("page11_span5").style.color+';">'+document.getElementById("page11_span5").innerText+'</span></td><td style="border: 1px solid #ffffff; width: 20.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">'+document.getElementById("page11_input22").value+'</span></td><td style="border: 1px solid #ffffff; width: 14.28%; vertical-align: middle; background-color: #dce6f0;"><span style="color: #000000;">'+document.getElementById("page11_input23").value+'</span></td></tr>'+'\n';
+							string += '<tr style="text-align: center;"><td style="border: 1px solid #ffffff; width: 12.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">鋁</span></td><td style="border: 1px solid #ffffff; width: 16.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">美 元/公噸</span></td><td style="border: 1px solid #ffffff; width: 13.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">'+commafy(document.getElementById("page11_input24").value)+'</span></td><td style="border: 1px solid #ffffff; width: 13.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">'+commafy(document.getElementById("page11_input25").value)+'</span></td><td style="border: 1px solid #ffffff; width: 10.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: '+document.getElementById("page11_span6").style.color+';">'+document.getElementById("page11_span6").innerText+'</span></td><td style="border: 1px solid #ffffff; width: 20.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">'+document.getElementById("page11_input26").value+'</span></td><td style="border: 1px solid #ffffff; width: 14.28%; vertical-align: middle; background-color: #95b3d7;"><span style="color: #000000;">'+document.getElementById("page11_input27").value+'</span></td></tr>'+'\n';
+							string += '</tbody></table>'+'\n';
+
+							document.getElementById("NewStringBox19").innerHTML=string;
+							document.getElementById("NewStringBox20").value=string;
+							document.getElementById("NewStringBox99").innerHTML+=string+"\n";																			
+						}
+					</script>
 				</div>
 			</div>
 		</div>
