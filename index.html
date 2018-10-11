@@ -5,10 +5,11 @@
 		<meta charset="utf-8"> 			
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-		<script src="./jquery.min.js"></script>		
+		<script src="./jquery.min.js"></script>	
 		<link rel="stylesheet" href="./bootstrap.min.css">
 		<link rel="stylesheet" href="./bootstrap-theme.min.css">
-		<script src="./bootstrap.min.js"></script>		
+		<script src="./bootstrap.min.js"></script>	
+			
 		<title>金屬行銷組 格式產生器</title>
 		
 		<style>
@@ -36,6 +37,9 @@
 				position: relative;
 				width: 33%;
 				vertical-align : top;
+			}
+			#speechText {
+				text-align: center;
 			}
 		</style>
 	</head>
@@ -671,7 +675,29 @@
 
 				<!-- 代言工具 -->											
 				<div class="tab-pane fade" id="page13">
-					<h4>製作中</h4>
+					<h4>代言工具</h4>				
+					<input id="speech" type="text" class="form-control" placeholder="文字輸入..." aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+					<h1 id="speechText" class="bg-info">...</h1>
+
+					<script type="text/javascript">
+						$("#speech").keypress(function(e){
+							code = (e.keyCode ? e.keyCode : e.which);
+							if (code == 13)
+							{								
+								var msg = new SpeechSynthesisUtterance();//語音念出文字
+								msg.voiceURI = "native";
+								msg.lang = "zh-TW";//語音語言
+								msg.rate = "1";
+								msg.pitch = "0.5";//音調0-2
+								msg.volume = 1;//音量
+								msg.text = document.getElementById("speech").value;
+								window.speechSynthesis.speak(msg);
+								$("#speechText").text(msg.text);
+								document.getElementById("speech").value = "";
+							}
+						});
+					</script>
+					
 				</div>
 			</div>
 		</div>
