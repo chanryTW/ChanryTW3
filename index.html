@@ -41,6 +41,9 @@
 			#speechText {
 				text-align: center;
 			}
+			#num1,#num2,#num3 {
+				display: inline-block;
+			}
 		</style>
 	</head>
 	<body>
@@ -80,6 +83,7 @@
 					<li><a href="#page12" data-toggle="tab">活動名單匯入</a></li>
 					<li><a href="#page14" data-toggle="tab">研究任務新增</a></li>
 					<li><a href="#page13" data-toggle="tab">代言工具</a></li>
+					<li><a href="#page15" data-toggle="tab">Hi-Lo</a></li>
 			</ul>
 			
 			<div id="myTabContent" class="tab-content">
@@ -712,6 +716,60 @@
 								document.getElementById("speech").value = "";
 							}
 						});
+					</script>
+					
+				</div>
+
+				<!-- Hi-Lo -->											
+				<div class="tab-pane fade" id="page15">
+					<h4>Hi-Lo</h4>
+
+					<br><h4>2-6</h4>				
+					<input class="btn btn-default" type="button" value="-" onclick="HiLo_btn('aDOWN')">	
+					<h4 id="num1">0</h4>
+					<input class="btn btn-default" type="button" value="+" onclick="HiLo_btn('aUP')"><br>		
+					<h4>7-9</h4>				
+					<input class="btn btn-default" type="button" value="-" onclick="HiLo_btn('bDOWN')">		
+					<h4 id="num2">0</h4>
+					<input class="btn btn-default" type="button" value="+" onclick="HiLo_btn('bUP')"><br>		
+					<h4>10-Ace</h4>				
+					<input class="btn btn-default" type="button" value="-" onclick="HiLo_btn('cDOWN')">		
+					<h4 id="num3">0</h4>
+					<input class="btn btn-default" type="button" value="+" onclick="HiLo_btn('cUP')"><br>					
+					<h1>point:<span id="num4">0</span></h1>
+
+					<script type="text/javascript">
+						var a=0,b=0,c=0,d=0;
+						function HiLo_btn(btn){
+							console.log(btn);
+							switch(btn) {
+								case 'aDOWN':
+									a -= 1;
+									document.getElementById("num1").innerText = a;
+									break;
+								case 'aUP':
+									a += 1;
+									document.getElementById("num1").innerText = a;
+									break;
+								case 'bDOWN':
+									b -= 1;
+									document.getElementById("num2").innerText = b;
+									break;
+								case 'bUP':
+									b += 1;
+									document.getElementById("num2").innerText = b;
+									break;
+								case 'cDOWN':
+									c -= 1;
+									document.getElementById("num3").innerText = c;
+									break;
+								case 'cUP':
+									c += 1;
+									document.getElementById("num3").innerText = c;
+									break;
+							}
+							document.getElementById("num4").innerText = a-c;
+						}
 					</script>
 					
 				</div>
