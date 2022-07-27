@@ -789,7 +789,17 @@
 					<h4>showDoc to TypeScript</h4>
 					<p>直接複製showDoc上的參數資料，貼至下方即可轉換為型態（class）。</p>
 					<p>排除處理參數名：<span id="showDoc_exceptionParameter"></span></p>
-					<img src="img/007.png" style="width: 50%;" alt="">
+					<p>參數類型：</p>
+					<div>
+						<input type="radio" name="isOutput" id="showDoc_output" autocomplete="off" checked>
+						<label for="showDoc_output">Output</label>
+					</div>
+					<div>
+						<input type="radio" name="isOutput" id="showDoc_input" autocomplete="off">
+						<label for="showDoc_input">Input</label>
+					</div>
+					<img src="img/007.png" style="width: 40%;" alt="">
+					<img src="img/008.png" style="width: 40%;" alt="">
 
 					<textarea class="form-control" cols="95" rows="2" id="showDoc_textarea_input"></textarea>
 					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="showDoc_convert()"><br>
@@ -798,36 +808,73 @@
 
 					<script type="text/javascript">
 						// 排除處理的參數名
-						let exceptionParameter = ['參數名', 'Data', 'DataCount', '🔽 DataResult', 'Code', 'Success', 'Msg'];
+						let exceptionParameter = ['參數名', 'Data', 'DataCount', 'DataResult', 'Code', 'Success', 'Msg', 'TokenID'];
 						document.getElementById("showDoc_exceptionParameter").innerText = exceptionParameter;
 
 						function showDoc_convert() {
+							// 是否執行子層
+							let childOpen = false;
+							// 是否為輸出參數
+							const isOutput = document.getElementById("showDoc_output").checked;
 							// 輸出模板
 							let outputString = '';
 							outputString += 'export class 名稱 {';
 							outputString += '\n  /**';
 							outputString += '\n   * 列表';
 							// 備註內容
-							remarkString = '';
+							let remarkString = '';
 							// 參數內容
-							constructorString = '';
-
+							let constructorString = '';
+							// 子層模板
+							let childOutputString = '';
+							// 子層備註內容
+							let childRemarkString = '';
+							// 子層參數內容
+							let childConstructorString = '';
+							
 							// 取得輸入資料
 							let inputValue = document.getElementById("showDoc_textarea_input").value;
 							// 取得每一列
 							let lines = inputValue.replaceAll("\t\t", "\t").split("\n"); 
-							lines.forEach((line) => {
+							lines.forEach((line, index) => {
+								let childOpenOpen = false;
+								let type = '';
 								let lineArr = line.split("\t"); 
+								let value = lineArr[0].replaceAll("🔽 ", "");
 								// 如果不再排除名單中
 								if (!exceptionParameter.includes(lineArr[0])) {
-									let value = lineArr[0].replaceAll("↳", "");
-									let type = '';
+									// 是否開啟子層判斷
+									if (childOpen) {
+										// 是否為子層
+										if (value.indexOf("↳") !== -1) {
+											childOpenOpen = true;
+										} else {
+											// 代表子層結束
+											childOutputString += childRemarkString;
+											childOutputString += '\n   */';
+											childOutputString += '\n  constructor(';
+											childOutputString += childConstructorString;
+											childOutputString += '\n  ) { }';
+											childOutputString += '\n}';
+											childOutputString += '\n';
+											childOutputString += '\n';
 
-									// 擺入備註
-									remarkString += `\n   * @param ${value} ${lineArr[2]}`;
+											childOpen = false;
+											childOpenOpen = false;
+										}
+									}
+									value = value.replaceAll("↳", "");
+
+									if (childOpenOpen) {
+										// 擺入備註
+										childRemarkString += `\n   * @param ${value} ${lineArr[isOutput ? 2 : (lineArr.length - 1)]}`;
+									} else {
+										// 擺入備註
+										remarkString += `\n   * @param ${value} ${lineArr[isOutput ? 2 : (lineArr.length - 1)]}`;
+									}
 
 									// 判斷型態
-									switch (lineArr[1]) {
+									switch (lineArr[isOutput ? 1 : 2].toLowerCase()) {
 										case 'int':
 											type = 'number | null = null';
 											break;
@@ -838,8 +885,14 @@
 										case 'date':
 											type = 'string | null = null';
 											break;
-										case 'object Array':
-											type = 'any[] = []';
+										case 'int array':
+											type = 'number[] = []';
+											break;
+										case 'string array':
+											type = 'string[] = []';
+											break;
+										case 'object array':
+											type = `${value}[] = []`;
 											break;
 										default:
 											type = 'null = null';
@@ -851,8 +904,40 @@
 										type = 'YN = 0';
 									}
 
-									// 擺入參數
-									constructorString += `\n    public ${value}: ${type},`;
+									if (childOpenOpen) {
+										// 擺入參數
+										childConstructorString += `\n    public ${value}: ${type},`;
+									} else {
+										// 擺入參數
+										constructorString += `\n    public ${value}: ${type},`;
+
+										// 如果型態是
+										if (lineArr[isOutput ? 1 : 2].toLowerCase() === 'object array') {
+											// 接下來有箭頭的要列為其子層
+											childOpen = true;
+
+											// 建立子層模板
+											childOutputString += `export class ${value} {`;
+											childOutputString += '\n  /**';
+											childOutputString += `\n   * ${lineArr[isOutput ? 2 : (lineArr.length - 1)]}`;
+										}
+									}
+
+									// 如果開啟子層判斷 且 最後一筆
+									if (childOpen && index === lines.length - 1) {
+										// 代表子層結束
+										childOutputString += childRemarkString;
+										childOutputString += '\n   */';
+										childOutputString += '\n  constructor(';
+										childOutputString += childConstructorString;
+										childOutputString += '\n  ) { }';
+										childOutputString += '\n}';
+										childOutputString += '\n';
+										childOutputString += '\n';
+
+										childOpen = false;
+										childOpenOpen = false;
+									}
 								}
 							});
 
@@ -862,6 +947,10 @@
 							outputString += constructorString;
 							outputString += '\n  ) { }';
 							outputString += '\n}';
+							outputString += '\n';
+							outputString += '\n';
+
+							outputString += childOutputString;
 
 							document.getElementById("showDoc_textarea_output").value = outputString;
 						}
