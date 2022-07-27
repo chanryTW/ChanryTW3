@@ -1,14 +1,15 @@
 <!-- By Chanry © 2018 Chanry All Rights Reserved. 回報：chanrytw@gmail.com -->
+<!-- 早期寫法 程式粗略 請勿參考 -->
 <!DOCTYPE html>
 <html lang="zh_TW">
 	<head>
 		<meta charset="utf-8"> 			
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-		<script src="./jquery.min.js"></script>	
-		<link rel="stylesheet" href="./bootstrap.min.css">
-		<link rel="stylesheet" href="./bootstrap-theme.min.css">
-		<script src="./bootstrap.min.js"></script>	
+		<script src="lib/jquery.min.js"></script>	
+		<link rel="stylesheet" href="lib/bootstrap.min.css">
+		<link rel="stylesheet" href="lib/bootstrap-theme.min.css">
+		<script src="lib/bootstrap.min.js"></script>	
 			
 		<title>金屬行銷組 格式產生器</title>
 		
@@ -85,6 +86,7 @@
 					<li><a href="#page14" data-toggle="tab">研究任務新增</a></li>
 					<li><a href="#page13" data-toggle="tab">代言工具</a></li>
 					<li><a href="#page15" data-toggle="tab">Hi-Lo</a></li>
+					<li><a href="#page16" data-toggle="tab">showDoc to TypeScript</a></li>
 			</ul>
 			
 			<div id="myTabContent" class="tab-content">
@@ -780,6 +782,90 @@
 						}
 					</script>
 					
+				</div>
+
+				<!-- showDoc to TypeScript -->
+				<div class="tab-pane fade" id="page16">
+					<h4>showDoc to TypeScript</h4>
+					<p>直接複製showDoc上的參數資料，貼至下方即可轉換為型態（class）。</p>
+					<p>排除處理參數名：<span id="showDoc_exceptionParameter"></span></p>
+					<img src="img/007.png" style="width: 50%;" alt="">
+
+					<textarea class="form-control" cols="95" rows="2" id="showDoc_textarea_input"></textarea>
+					<br><input class="btn btn-default btn-block" type="button" value="執行" onclick="showDoc_convert()"><br>
+					
+					<textarea class="form-control" cols="95" rows="2" id="showDoc_textarea_output">...</textarea>
+
+					<script type="text/javascript">
+						// 排除處理的參數名
+						let exceptionParameter = ['參數名', 'Data', 'DataCount', '🔽 DataResult', 'Code', 'Success', 'Msg'];
+						document.getElementById("showDoc_exceptionParameter").innerText = exceptionParameter;
+
+						function showDoc_convert() {
+							// 輸出模板
+							let outputString = '';
+							outputString += 'export class 名稱 {';
+							outputString += '\n  /**';
+							outputString += '\n   * 列表';
+							// 備註內容
+							remarkString = '';
+							// 參數內容
+							constructorString = '';
+
+							// 取得輸入資料
+							let inputValue = document.getElementById("showDoc_textarea_input").value;
+							// 取得每一列
+							let lines = inputValue.replaceAll("\t\t", "\t").split("\n"); 
+							lines.forEach((line) => {
+								let lineArr = line.split("\t"); 
+								// 如果不再排除名單中
+								if (!exceptionParameter.includes(lineArr[0])) {
+									let value = lineArr[0].replaceAll("↳", "");
+									let type = '';
+
+									// 擺入備註
+									remarkString += `\n   * @param ${value} ${lineArr[2]}`;
+
+									// 判斷型態
+									switch (lineArr[1]) {
+										case 'int':
+											type = 'number | null = null';
+											break;
+										case 'bool':
+											type = 'boolean = false';
+											break;
+										case 'string':
+										case 'date':
+											type = 'string | null = null';
+											break;
+										case 'object Array':
+											type = 'any[] = []';
+											break;
+										default:
+											type = 'null = null';
+											break;
+									}
+
+									// 例外 如果是Is開頭 代表自定義01型態
+									if (value.substr(0, 2).toLowerCase() === 'is') {
+										type = 'YN = 0';
+									}
+
+									// 擺入參數
+									constructorString += `\n    public ${value}: ${type},`;
+								}
+							});
+
+							outputString += remarkString;
+							outputString += '\n   */';
+							outputString += '\n  constructor(';
+							outputString += constructorString;
+							outputString += '\n  ) { }';
+							outputString += '\n}';
+
+							document.getElementById("showDoc_textarea_output").value = outputString;
+						}
+					</script>
 				</div>
 			</div>
 		</div>
